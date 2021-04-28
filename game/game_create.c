@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
 #include <qc.h>
 #include "game.h"
 
@@ -11,6 +13,15 @@ static state** game_create_field(size_t m, size_t n, qc_rnd* rnd) {
         }
     }
     ret[qc_rnd64_uniform(rnd, m)][qc_rnd64_uniform(rnd, n)] = STATE_ILL;
+    return ret;
+}
+
+static bool** game_create_spread(size_t m, size_t n, qc_rnd* rnd) {
+    bool** ret = qc_malloc(sizeof(bool*) * m);
+    for (size_t i = 0; i < m; ++i) {
+        ret[i] = qc_malloc(sizeof(bool) * n);
+        memset(ret[i], 0, n);
+    }
     return ret;
 }
 
@@ -29,6 +40,7 @@ game* game_create(size_t m, size_t n, double p_ill, double p_death, double p_rec
     ret->m = m;
     ret->n = n;
     ret->field = game_create_field(m, n, &ret->rnd);
+    ret->spread = game_create_spread(m, n, &ret->rnd);
     ret->p_ill = p_ill;
     ret->p_death = p_death;
     ret->p_recover = p_recover;

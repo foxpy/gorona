@@ -1,5 +1,6 @@
 #pragma once
 #include <stddef.h>
+#include <stdbool.h>
 #include <qc.h>
 
 enum {
@@ -12,6 +13,7 @@ typedef unsigned char state;
 typedef struct {
     size_t m, n;
     state** field;
+    bool** spread;
     qc_rnd rnd;
     double p_ill, p_death, p_recover;
 } game;
