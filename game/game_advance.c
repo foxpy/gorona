@@ -3,6 +3,7 @@
 #include <string.h>
 #include <qc.h>
 #include "game.h"
+#include "game_impl.h"
 
 static void clear_spread(game* game) {
     for (size_t i = 0; i < game->m; ++i) {
@@ -50,6 +51,7 @@ static void game_spread_disease(game* game, size_t x, size_t y) {
 }
 
 void game_advance(game* game) {
+    ++(game->iteration);
     clear_spread(game);
     for (size_t i = 0; i < game->m; ++i) {
         for (size_t j = 0; j < game->n; ++j) {
@@ -73,4 +75,6 @@ void game_advance(game* game) {
             }
         }
     }
+    game_log_stats(game);
+    game_log_matrix(game);
 }

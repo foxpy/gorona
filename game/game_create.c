@@ -16,7 +16,7 @@ static state** game_create_field(size_t m, size_t n, qc_rnd* rnd) {
     return ret;
 }
 
-static bool** game_create_spread(size_t m, size_t n, qc_rnd* rnd) {
+static bool** game_create_spread(size_t m, size_t n) {
     bool** ret = qc_malloc(sizeof(bool*) * m);
     for (size_t i = 0; i < m; ++i) {
         ret[i] = qc_malloc(sizeof(bool) * n);
@@ -40,9 +40,12 @@ game* game_create(size_t m, size_t n, double p_ill, double p_death, double p_rec
     ret->m = m;
     ret->n = n;
     ret->field = game_create_field(m, n, &ret->rnd);
-    ret->spread = game_create_spread(m, n, &ret->rnd);
+    ret->spread = game_create_spread(m, n);
     ret->p_ill = p_ill;
     ret->p_death = p_death;
     ret->p_recover = p_recover;
+    ret->iteration = 0;
+    ret->stats = NULL;
+    ret->matrices = NULL;
     return ret;
 }

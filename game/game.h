@@ -1,6 +1,7 @@
 #pragma once
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <qc.h>
 
 enum {
@@ -16,9 +17,13 @@ typedef struct {
     bool** spread;
     qc_rnd rnd;
     double p_ill, p_death, p_recover;
+    size_t iteration;
+    FILE* stats;
+    FILE* matrices;
 } game;
 
 game* game_create(size_t m, size_t n, double p_ill, double p_death, double p_recover);
+void game_set_logging(game* game, FILE* stats, FILE* matrices);
 void game_free(game* game);
 void game_advance(game* game);
 void game_print(game* game);
